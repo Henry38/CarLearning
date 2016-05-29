@@ -1,0 +1,4 @@
+src/*.pro.user
+src/*.pro.user*
+build-Debug/*
+build-Release/*
