@@ -1,51 +1,34 @@
 #include "MainWindow.h"
 
-// Qt
-#include <QApplication>
-#include <QLabel>
-#include <QPushButton>
-#include <QVBoxLayout>
-
-#include <iostream>
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    // Create an empty QWidget with 'this' as parent
-    myWidget = new QWidget(this);
+    // create an empty widget with 'this' as parent
+    m_centralWidget = new QWidget(this);
 
-    // Create a layout manager for myWidget
-    myLayout = new QHBoxLayout();
+    // create the layout manager for m_centralWidget
+    m_layout = new QHBoxLayout();
 
-    // Set the layout manager of myWidget
-    // MainWindow takes the ownership of myLayout (parenting)
-    myWidget->setLayout(myLayout);
+    // set the layout manager for m_centralWidget
+    // MainWindow takes the ownership of m_layout (parenting)
+    m_centralWidget->setLayout(m_layout);
 
-    // Create button quit and start
-    quit = new QPushButton("Quitter");
-    start = new QPushButton("Start");
+    // create the two panels
+    m_panelInfo = new PanelInfo();
+    m_panelDisplay = new PanelDisplay();
 
-    // Add buttons to myLayout, MainWindow takes ownership of them (parenting)
-    myLayout->addWidget(quit);
-    myLayout->addWidget(start);
+    // add panels to m_layout
+    // MainWindow takes ownership of them (parenting)
+    m_layout->addWidget(m_panelInfo);
+    m_layout->addWidget(m_panelDisplay);
 
-    // Load the image
-    label = new QLabel();
-    label->setPixmap(QPixmap("../ressource/circuit.jpeg"));
-
-    // Add label to myLayout, MainWindow takes ownership of it (parenting)
-    myLayout->addWidget(label);
-
-    // Connect quit button signal to close program slot
-    QObject::connect(quit, SIGNAL(clicked()), qApp, SLOT(quit()));
-
-    setCentralWidget(myWidget);
+    // set the central widget of the window
+    setCentralWidget(m_centralWidget);
 }
 
 MainWindow::~MainWindow()
 {
-    // myWidget is automaticaly delete by MainWindow
-    // so myLayout is from myWidget (parenting)
-    // so quit and start are from myLayout (parenting)
-    // so label is from myLayout (parenting)
+    // m_centralWidget is automaticaly delete by MainWindow
+    // so m_layout is from m_centralWidget (parenting)
+    // so m_panelInfo and m_panelDisplay are from m_layout (parenting)
 }

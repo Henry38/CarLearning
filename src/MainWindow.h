@@ -2,11 +2,12 @@
 #define MAINWINDOW_H
 
 // Qt
+#include <QHBoxLayout>
 #include <QMainWindow>
+#include <QPushButton>
 
-class QLabel;
-class QPushButton;
-class QHBoxLayout;
+#include "PanelInfo.h"
+#include "PanelDisplay.h"
 
 class MainWindow : public QMainWindow
 {
@@ -20,11 +21,10 @@ private:
     //QGraphicsView* m_view;        // provide a widget for display a QGraphicsScene
     //QGraphicsScene* m_scene;      // provides a surface for managing 2D graphical items
 
-    QWidget* myWidget;
-    QHBoxLayout* myLayout;
-    QPushButton* quit;
-    QPushButton* start;
-    QLabel* label;
+    QWidget *m_centralWidget;
+    QHBoxLayout *m_layout;
+    PanelInfo *m_panelInfo;
+    PanelDisplay *m_panelDisplay;
 
 signals:
 

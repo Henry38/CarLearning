@@ -7,10 +7,14 @@ QT += widgets
 
 SOURCES += \
     main.cpp \
-    MainWindow.cpp
+    MainWindow.cpp \
+    PanelInfo.cpp \
+    PanelDisplay.cpp
 
 HEADERS += \
-    MainWindow.h
+    MainWindow.h \
+    PanelInfo.h \
+    PanelDisplay.h
 
 OTHER_FILES += \
     ../ressource/circuit.jpeg
