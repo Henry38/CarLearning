@@ -1,10 +1,12 @@
 #ifndef PANELINFO_H
 #define PANELINFO_H
 
+// Qt
 #include <QWidget>
 
-#include <QVBoxLayout>
-#include <QPushButton>
+class QGridLayout;
+class QGroupBox;
+class QPushButton;
 
 class PanelInfo : public QWidget
 {
@@ -14,9 +16,16 @@ public:
     explicit PanelInfo(QWidget *parent = 0);
     ~PanelInfo();
 
+    //virtual void resizeEvent(QResizeEvent *event);
+
 private:
-    QVBoxLayout *m_layout;
+    QGridLayout *m_layout;
+    QGroupBox *m_panelTop, *m_panelBottom;
     QPushButton *m_quit;
+    QPushButton *m_start;
+
+    QGroupBox *createTopGroupBox();
+    QGroupBox *createBottomGroupBox();
 };
 
 #endif // PANELINFO_H

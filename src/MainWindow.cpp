@@ -1,5 +1,15 @@
 #include "MainWindow.h"
 
+// Qt
+#include <QHBoxLayout>
+#include <QPushButton>
+#include <QTimer>
+
+#include "PanelInfo.h"
+#include "PanelDisplay.h"
+
+#include <iostream>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
@@ -13,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // MainWindow takes the ownership of m_layout (parenting)
     m_centralWidget->setLayout(m_layout);
 
-    // create the two panels
+    // create the two graphicals panels
     m_panelInfo = new PanelInfo();
     m_panelDisplay = new PanelDisplay();
 
@@ -24,6 +34,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // set the central widget of the window
     setCentralWidget(m_centralWidget);
+
+    // create a timer for time simulation
+    m_timer = new QTimer(this);
+
+    // connect timeout signal and timeUpdate slot
+    // every x milliseconds, timeUpdate method is call by m_timer
+    QObject::connect(m_timer, SIGNAL(timeout()), this, SLOT(timeUpdate()));
 }
 
 MainWindow::~MainWindow()
@@ -31,4 +48,19 @@ MainWindow::~MainWindow()
     // m_centralWidget is automaticaly delete by MainWindow
     // so m_layout is from m_centralWidget (parenting)
     // so m_panelInfo and m_panelDisplay are from m_layout (parenting)
+}
+
+void MainWindow::timerStart()
+{
+    m_timer->start(1000);
+}
+
+void MainWindow::timerStop()
+{
+    m_timer->stop();
+}
+
+void MainWindow::timeUpdate()
+{
+    std::cout << "Timer out" << std::endl;
 }
