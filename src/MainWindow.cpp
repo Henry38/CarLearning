@@ -45,9 +45,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    // m_centralWidget is automaticaly delete by MainWindow
-    // so m_layout is from m_centralWidget (parenting)
-    // so m_panelInfo and m_panelDisplay are from m_layout (parenting)
+    // m_centralWidget is automaticaly deleted by MainWindow
+    // so is m_layout from m_centralWidget (parenting)
+    // so are m_panelInfo and m_panelDisplay from m_layout (parenting)
 }
 
 void MainWindow::timerStart()
