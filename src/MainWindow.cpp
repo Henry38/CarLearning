@@ -7,6 +7,7 @@
 
 #include "PanelInfo.h"
 #include "PanelDisplay.h"
+#include "Simulation.h"
 
 #include <iostream>
 
@@ -41,6 +42,13 @@ MainWindow::MainWindow(QWidget *parent) :
     // connect timeout signal and timeUpdate slot
     // every x milliseconds, timeUpdate method is call by m_timer
     QObject::connect(m_timer, SIGNAL(timeout()), this, SLOT(timeUpdate()));
+
+    // Create a simulation
+    simulation = new Simulation("../ressource/circuit.jpeg", 1000);
+
+    // Set element for m_panelDisplay
+    m_panelDisplay->addCar(simulation->getCar());
+    m_panelDisplay->setCircuit(simulation->getCircuit());
 }
 
 MainWindow::~MainWindow()
@@ -48,6 +56,7 @@ MainWindow::~MainWindow()
     // m_centralWidget is automaticaly deleted by MainWindow
     // so is m_layout from m_centralWidget (parenting)
     // so are m_panelInfo and m_panelDisplay from m_layout (parenting)
+    delete simulation;
 }
 
 void MainWindow::timerStart()
@@ -63,4 +72,10 @@ void MainWindow::timerStop()
 void MainWindow::timeUpdate()
 {
     std::cout << "Timer out" << std::endl;
+    // 1- Recuperer le lancer de rayon a partir de la voiture
+    // 1.1 - Générer le vecteur des scores parfaits
+    // 2- Balancer le vecteur de distance au réseau de neurone
+    // 3- Recuperer le résultat du reseau de neurone
+    // 4- Faire bouger la voiture
+    // 5- Incrementer le temps de dt ?
 }

@@ -3,11 +3,13 @@
 // Qt
 #include <QImage>
 #include <QLabel>
+#include <QtMath>
 #include <QPainter>
 #include <QScrollArea>
 #include <QVBoxLayout>
 
-#include <iostream>
+#include "Car.h"
+#include "Circuit.h"
 
 PanelDisplay::PanelDisplay(QWidget *parent) :
     QWidget(parent)
@@ -33,11 +35,14 @@ PanelDisplay::PanelDisplay(QWidget *parent) :
 
     // set the layout manager for this widget
     setLayout(layout);
+
+    m_listCar = new std::vector<const Car*>(0);
 }
 
 PanelDisplay::~PanelDisplay()
 {
     delete m_pixmap;
+    delete m_listCar;
 }
 
 QSize PanelDisplay::sizeHint() const
@@ -57,11 +62,24 @@ void PanelDisplay::paintEvent(QPaintEvent *)
 
     // set properties for QPen
     QPen paintpen(Qt::red);
-    paintpen.setWidth(1);
+    paintpen.setWidth(2);
     painter.setPen(paintpen);
 
     /* Draw from here on QPainter */
-    //painter.drawLine(0, 0, 20, 20);
+    for (unsigned int i = 0; i < m_listCar->size(); ++i) {
+        const Car *car = m_listCar->at(i);
+        qreal x = car->x();
+        qreal y = car->y();
+        qreal teta = car->teta();
+        QPointF p = m_circuit->toImage(x, y);
+        painter.drawPoint(p);
+        painter.save();
+        painter.translate(p);
+        painter.rotate(-(teta / M_PI) * 180.0);
+        painter.drawRect(-10, -5, 20, 10);
+        painter.drawLine(0, 0, 10, 0);
+        painter.restore();
+    }
 
     // set the new QPixmap from the tmp (QImage)
     label->setPixmap(QPixmap::fromImage(tmp));

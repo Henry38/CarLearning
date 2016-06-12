@@ -4,9 +4,10 @@
 // Qt
 #include <QWidget>
 
-//class QVBoxLayout;
-class QScrollArea;
+class Car;
+class Circuit;
 class QLabel;
+class QScrollArea;
 class QPixmap;
 
 class PanelDisplay : public QWidget
@@ -20,11 +21,16 @@ public:
     virtual QSize sizeHint() const;
     virtual void paintEvent(QPaintEvent *);
 
+    void addCar(const Car *car) { m_listCar->push_back(car); }
+    void setCircuit(const Circuit *circuit) { m_circuit = circuit; }
+
 private:
-    //QVBoxLayout *m_layout;
     QLabel *label;
     QScrollArea *scrollArea;
     QPixmap *m_pixmap;
+
+    std::vector<const Car*> *m_listCar;
+    const Circuit *m_circuit;
 
 };
 

@@ -9,6 +9,8 @@ class PanelInfo;
 class QHBoxLayout;
 class QTimer;
 
+class Simulation;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -26,6 +28,9 @@ private:
     QHBoxLayout *m_layout;
     PanelInfo *m_panelInfo;
     PanelDisplay *m_panelDisplay;
+
+    // Simulation
+    Simulation *simulation;
 
     QTimer *m_timer;
 
