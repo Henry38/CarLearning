@@ -30,14 +30,7 @@ private:
     PanelDisplay *m_panelDisplay;
 
     // Simulation
-    Simulation *simulation;
-
-    QTimer *m_timer;
-
-signals:
-
-public slots:
-    void timeUpdate();
+    Simulation *m_simulation;
 
 };
 

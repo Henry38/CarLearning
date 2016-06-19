@@ -45,6 +45,17 @@ PanelDisplay::~PanelDisplay()
     delete m_listCar;
 }
 
+void PanelDisplay::addCar(const Car *car)
+{
+    m_listCar->push_back(car);
+}
+
+void PanelDisplay::setCircuit(const Circuit *circuit)
+{
+    m_circuit = circuit;
+    m_pixmap->load(circuit->getFilename());
+}
+
 QSize PanelDisplay::sizeHint() const
 {
     int width = m_pixmap->width() + 20;

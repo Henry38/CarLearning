@@ -3,13 +3,10 @@
 // Qt
 #include <QHBoxLayout>
 #include <QPushButton>
-#include <QTimer>
 
 #include "PanelInfo.h"
 #include "PanelDisplay.h"
 #include "Simulation.h"
-
-#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -36,19 +33,12 @@ MainWindow::MainWindow(QWidget *parent) :
     // set the central widget of the window
     setCentralWidget(m_centralWidget);
 
-    // create a timer for time simulation
-    m_timer = new QTimer(this);
-
-    // connect timeout signal and timeUpdate slot
-    // every x milliseconds, timeUpdate method is call by m_timer
-    QObject::connect(m_timer, SIGNAL(timeout()), this, SLOT(timeUpdate()));
-
     // Create a simulation
-    simulation = new Simulation("../ressource/circuit.jpeg", 1000);
+    m_simulation = new Simulation(1000, this);
 
     // Set element for m_panelDisplay
-    m_panelDisplay->addCar(simulation->getCar());
-    m_panelDisplay->setCircuit(simulation->getCircuit());
+    m_panelDisplay->addCar(m_simulation->getCar());
+    m_panelDisplay->setCircuit(m_simulation->getCircuit());
 }
 
 MainWindow::~MainWindow()
@@ -56,26 +46,16 @@ MainWindow::~MainWindow()
     // m_centralWidget is automaticaly deleted by MainWindow
     // so is m_layout from m_centralWidget (parenting)
     // so are m_panelInfo and m_panelDisplay from m_layout (parenting)
-    delete simulation;
 }
 
 void MainWindow::timerStart()
 {
-    m_timer->start(1000);
+    //m_timer->start(1000);
 }
 
 void MainWindow::timerStop()
 {
-    m_timer->stop();
+    //m_timer->stop();
 }
 
-void MainWindow::timeUpdate()
-{
-    std::cout << "Timer out" << std::endl;
-    // 1- Recuperer le lancer de rayon a partir de la voiture
-    // 1.1 - Générer le vecteur des scores parfaits
-    // 2- Balancer le vecteur de distance au réseau de neurone
-    // 3- Recuperer le résultat du reseau de neurone
-    // 4- Faire bouger la voiture
-    // 5- Incrementer le temps de dt ?
-}
+

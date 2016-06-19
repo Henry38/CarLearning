@@ -18,11 +18,11 @@ public:
     PanelDisplay(QWidget *parent = 0);
     ~PanelDisplay();
 
+    void addCar(const Car *car);
+    void setCircuit(const Circuit *circuit);
+
     virtual QSize sizeHint() const;
     virtual void paintEvent(QPaintEvent *);
-
-    void addCar(const Car *car) { m_listCar->push_back(car); }
-    void setCircuit(const Circuit *circuit) { m_circuit = circuit; }
 
 private:
     QLabel *label;

@@ -13,12 +13,15 @@ class Car;
 class Circuit
 {
 public:
-    explicit Circuit(const char *filename, qreal L);
+    explicit Circuit(qreal L);
+
+    const QString& getFilename() const { return filename; }
 
     std::vector<qreal> getRayCast(const Car &car) const;
     QPointF toImage(qreal x, qreal y) const;
 
 private:
+    QString filename;
     QImage m_track;
     Eigen::Matrix3d m_projMatrix;
     Eigen::Matrix3d m_screenMatrix;
