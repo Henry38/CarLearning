@@ -1,6 +1,7 @@
 #include "Car.h"
 
-Car::Car()
+Car::Car(QObject *parent) :
+    QObject(parent)
 {
     this->m_x = 0;
     this->m_y = 0;

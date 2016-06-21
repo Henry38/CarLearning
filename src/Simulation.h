@@ -2,20 +2,18 @@
 #define SIMULATION_H
 
 // Qt
+#include <QObject>
 #include <QTimer>
 
 #include "Car.h"
 #include "Circuit.h"
-
-class QTimer;
 
 class Simulation : public QObject
 {
     Q_OBJECT
 
 public:
-    Simulation(qreal L, QObject *parent = 0);
-    ~Simulation();
+    explicit Simulation(qreal L, QObject *parent = 0);
 
     const Car* getCar() const { return &m_car; }
     const Circuit* getCircuit() const { return &m_circuit; }

@@ -3,6 +3,7 @@
 
 // Qt
 #include <QImage>
+#include <QObject>
 #include <QPointF>
 
 // Eigen
@@ -10,10 +11,11 @@
 
 class Car;
 
-class Circuit
+class Circuit : public QObject
 {
+
 public:
-    explicit Circuit(qreal L);
+    explicit Circuit(qreal L, QObject *parent = 0);
 
     const QString& getFilename() const { return filename; }
 

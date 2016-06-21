@@ -2,7 +2,8 @@
 
 #include "Car.h"
 
-Circuit::Circuit(qreal L) :
+Circuit::Circuit(qreal L, QObject *parent) :
+    QObject(parent),
     filename("../ressource/circuit.jpeg"),
     m_track(filename),
     m_projMatrix(),

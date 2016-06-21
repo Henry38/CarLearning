@@ -2,12 +2,14 @@
 #define CAR_H
 
 // Qt
+#include <QObject>
 #include <QtGlobal>
 
-class Car
+class Car : public QObject
 {
+
 public:
-    explicit Car();
+    explicit Car(QObject *parent = 0);
 
     qreal x() const { return m_x; }
     qreal y() const { return m_y; }
