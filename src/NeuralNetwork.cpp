@@ -9,11 +9,11 @@ NeuralNetwork::NeuralNetwork(const Eigen::VectorXi &dimension) :
     size_t nbEntries = Car::nbRay;
 
     // create for each slices, the number of neurons given
-    for (unsigned int i = 0; i < dimension.rows(); ++i)
+    for (int i = 0; i < dimension.rows(); ++i)
     {
-        unsigned int nbNeurons = dimension[i];
+        size_t nbNeurons = dimension[i];
         std::vector<Neuron*> vector(nbNeurons);
-        for (unsigned int n = 0; n < nbNeurons; ++n)
+        for (size_t n = 0; n < nbNeurons; ++n)
         {
             vector[n] = new Neuron(nbEntries);
         }
@@ -24,16 +24,37 @@ NeuralNetwork::NeuralNetwork(const Eigen::VectorXi &dimension) :
 
 NeuralNetwork::~NeuralNetwork()
 {
-    for (unsigned int i = 0; i < neuronSlices.size(); ++i)
+    for (size_t i = 0; i < neuronSlices.size(); ++i)
     {
         std::vector<Neuron*> &slice = neuronSlices[i];
-        for (unsigned int n = 0; n < slice.size(); ++n) {
+        for (size_t n = 0; n < slice.size(); ++n) {
             delete slice[n];
         }
     }
 }
 
-void NeuralNetwork::compute(const Eigen::VectorXd &rayCast)
+qreal NeuralNetwork::compute(const Eigen::VectorXd &rayCast, const Eigen::VectorXd &perfectScore)
 {
+    size_t nbSlice = neuronSlices.size();
+    Eigen::VectorXd entries = rayCast;
+    Eigen::VectorXd result;
 
+    // calcul de la sortie du reseau de neurones
+    for (size_t i = 0; i < nbSlice; ++i)
+    {
+        std::vector<Neuron*> &slice = neuronSlices[i];
+        result.resize(slice.size());
+
+        for (size_t n = 0; n < slice.size(); ++n) {
+            Neuron *neuron = slice[n];
+            result << neuron->compute(entries);
+        }
+
+        entries = result;
+    }
+
+    // result = sortie du reseau de neurones
+    // TODO : correction des poids
+
+    return 0;
 }

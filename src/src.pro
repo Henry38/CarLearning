@@ -2,6 +2,9 @@
 # Nom de l'executable
 TARGET = Neuronal_Network
 
+# C++11 autorise
+QMAKE_CXXFLAGS += -std=c++11
+
 # Dans Qt5, QApplication fait parti du module widgets
 QT += widgets
 

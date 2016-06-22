@@ -1,12 +1,13 @@
 #include "Neuron.h"
 
 // Standard Library
+#include <math.h>
 #include <stdlib.h>
 #include <time.h>
 
-Neuron::Neuron(unsigned int n) :
-    size(n),
-    m_weightVector(n+1)
+Neuron::Neuron(size_t n) :
+    m_weightVector(n),
+    w0(0)
 {
     init();
 }
@@ -16,11 +17,19 @@ void Neuron::init()
     // initialise la graine aleatoire
     std::srand(time(0));
 
-    // le poids w0 est vaut toujours -1
-    m_weightVector[0] = -1;
+    // ???
+    w0 = 0;
 
     // initialise des poids aleatoire entre 0 et 1
-    for (unsigned int i = 1; i < size; ++i) {
+    size_t size = m_weightVector.rows();
+    for (size_t i = 0; i < size; ++i) {
         m_weightVector[i] = (rand() % 100) / 100.0;
     }
+}
+
+qreal Neuron::compute(Eigen::VectorXd entries)
+{
+    qreal result = m_weightVector.dot(entries);
+    // Fonction Heaviside
+    return (result < w0 ? 0 : 1);
 }

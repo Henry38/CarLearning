@@ -19,7 +19,7 @@ public:
     explicit NeuralNetwork(const Eigen::VectorXi &dimension);
     ~NeuralNetwork();
 
-    void compute(const Eigen::VectorXd &rayCast);
+    qreal compute(const Eigen::VectorXd &rayCast, const Eigen::VectorXd &perfectScore);
 
 private:
     std::vector< std::vector<Neuron*> > neuronSlices;

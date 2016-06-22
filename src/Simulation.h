@@ -23,7 +23,7 @@ public:
 private:
     Car m_car;
     Circuit m_circuit;
-    NeuralNetwork *neuralNetwork;
+    NeuralNetwork *m_neuralNetwork;
 
     QTimer m_timer;
 
