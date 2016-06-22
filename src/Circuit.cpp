@@ -32,6 +32,9 @@ std::vector<qreal> Circuit::getRayCast(const Car &car) const
 {
     std::vector<qreal> vector(0);
     // TODO : implements ray cast algorithm from a continuous space ?
+    for (unsigned int i = 0; i < 7; ++i) {
+        vector.push_back(20);
+    }
     return vector;
 }
 

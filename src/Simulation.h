@@ -18,8 +18,6 @@ public:
     const Car* getCar() const { return &m_car; }
     const Circuit* getCircuit() const { return &m_circuit; }
 
-    std::vector<qreal> getRayCast() const;
-
 private:
     Car m_car;
     Circuit m_circuit;

@@ -15,7 +15,7 @@ class PanelDisplay : public QWidget
     Q_OBJECT
 
 public:
-    PanelDisplay(QWidget *parent = 0);
+    explicit PanelDisplay(QWidget *parent = 0);
     ~PanelDisplay();
 
     void addCar(const Car *car);

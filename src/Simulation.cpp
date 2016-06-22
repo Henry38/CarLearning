@@ -20,21 +20,14 @@ Simulation::Simulation(qreal L, QObject *parent) :
     // connect timeout signal and timeUpdate slot
     // every x milliseconds, timeUpdate method is call by m_timer
     QObject::connect(&m_timer, SIGNAL(timeout()), this, SLOT(timeUpdate()));
-
-    //QPointF p = m_circuit.toImage(0, 0);  // Works !
-    //std::cout << p.x() << ", " << p.y() << std::endl;
-}
-
-std::vector<qreal> Simulation::getRayCast() const
-{
-    return m_circuit.getRayCast(m_car);
+    m_timer.start(1000);
 }
 
 void Simulation::timeUpdate()
 {
     std::cout << "Timer out" << std::endl;
     // 1- Recuperer le lancer de rayon a partir de la voiture
-    std::vector<qreal> rayCast = getRayCast();
+    //std::vector<qreal> rayCast = m_circuit.getRayCast(m_car);
 
     // 1.1 - Générer le vecteur des scores parfaits
     //std::vector<qreal> perfectScore(0);
