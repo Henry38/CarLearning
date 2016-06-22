@@ -33,10 +33,10 @@ MainWindow::MainWindow(QWidget *parent) :
     // set the central widget of the window
     setCentralWidget(m_centralWidget);
 
-    // Create a simulation
+    // create a simulation
     m_simulation = new Simulation(1000, this);
 
-    // Set element for m_panelDisplay
+    // set element for m_panelDisplay
     m_panelDisplay->addCar(m_simulation->getCar());
     m_panelDisplay->setCircuit(m_simulation->getCircuit());
 }

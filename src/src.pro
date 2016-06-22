@@ -12,7 +12,9 @@ SOURCES += \
     PanelDisplay.cpp \
     Car.cpp \
     Simulation.cpp \
-    Circuit.cpp
+    Circuit.cpp \
+    NeuralNetwork.cpp \
+    Neuron.cpp
 
 HEADERS += \
     MainWindow.h \
@@ -20,7 +22,9 @@ HEADERS += \
     PanelDisplay.h \
     Car.h \
     Simulation.h \
-    Circuit.h
+    Circuit.h \
+    NeuralNetwork.h \
+    Neuron.h
 
 # Ajout du repertoire d'Eigen pour les fichers d'inclusion
 INCLUDEPATH += ../lib/Eigen-3.2.8

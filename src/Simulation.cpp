@@ -12,6 +12,14 @@ Simulation::Simulation(qreal L, QObject *parent) :
     m_circuit(L, this),
     m_timer(this)
 {
+    // set 3 slices and define the number of neurons on each of them
+    Eigen::VectorXi dimension(3);
+    dimension << 3, 4, 3;
+
+    // create a neural network
+    neuralNetwork = new NeuralNetwork(dimension);
+
+    // set properties of the car
     m_car.setX(0);
     m_car.setY(225);
     m_car.setTeta(0);
@@ -21,6 +29,11 @@ Simulation::Simulation(qreal L, QObject *parent) :
     // every x milliseconds, timeUpdate method is call by m_timer
     QObject::connect(&m_timer, SIGNAL(timeout()), this, SLOT(timeUpdate()));
     m_timer.start(1000);
+}
+
+Simulation::~Simulation()
+{
+    delete neuralNetwork;
 }
 
 void Simulation::timeUpdate()
