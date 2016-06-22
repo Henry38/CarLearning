@@ -21,7 +21,10 @@ public:
     void setTeta(qreal teta);
     void setVelocity(qreal velocity);
 
+    static const size_t nbRay;
+
 private:
+
     qreal m_x;
     qreal m_y;
     qreal m_teta;
