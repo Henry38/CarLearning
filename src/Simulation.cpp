@@ -40,13 +40,13 @@ void Simulation::timeUpdate()
 {
     std::cout << "Timer out" << std::endl;
     // 1- Recuperer le lancer de rayon a partir de la voiture
-    //std::vector<qreal> rayCast = m_circuit.getRayCast(m_car);
+    Eigen::VectorXd rayCast = m_circuit.getRayCast(m_car);
 
     // 2- Générer le vecteur des scores parfaits
-    //std::vector<qreal> perfectScore(0);
+    Eigen::VectorXd perfectScore = Eigen::VectorXd::Constant(Car::nbRay,1);
 
     // 3- Balancer le vecteur de distance au réseau de neurone
-    //qreal result = m_neuralNetwork->compute(rayCast, perfectScore);
+    m_neuralNetwork->compute(rayCast, perfectScore);
 
     // 4- Recuperer le résultat du reseau de neurone
     // 5- Faire bouger la voiture

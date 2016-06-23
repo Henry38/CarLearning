@@ -13,12 +13,14 @@ class Neuron
 public:
     explicit Neuron(size_t n);
 
+    size_t getNbEntries() { return m_weightVector.rows(); }
+
     void init();
     qreal compute(Eigen::VectorXd entries);
 
 private:
     Eigen::VectorXd m_weightVector;
-    qreal w0;
+    qreal m_w0;
 
 };
 

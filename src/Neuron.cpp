@@ -7,7 +7,7 @@
 
 Neuron::Neuron(size_t n) :
     m_weightVector(n),
-    w0(0)
+    m_w0(0)
 {
     init();
 }
@@ -18,7 +18,7 @@ void Neuron::init()
     std::srand(time(0));
 
     // ???
-    w0 = 0;
+    m_w0 = 0;
 
     // initialise des poids aleatoire entre 0 et 1
     size_t size = m_weightVector.rows();
@@ -31,5 +31,5 @@ qreal Neuron::compute(Eigen::VectorXd entries)
 {
     qreal result = m_weightVector.dot(entries);
     // Fonction Heaviside
-    return (result < w0 ? 0 : 1);
+    return (result < m_w0 ? 0 : 1);
 }

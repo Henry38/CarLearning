@@ -1,14 +1,14 @@
 #include "NeuralNetwork.h"
 
 #include "Car.h"
-
+#include <iostream>
 NeuralNetwork::NeuralNetwork(const Eigen::VectorXi &dimension) :
     neuronSlices(0)
 {
     // fetch the number of ray cast from a car
     size_t nbEntries = Car::nbRay;
 
-    // create for each slices, the number of neurons given
+    // create for each slices, the number of neurons given by dimension
     for (int i = 0; i < dimension.rows(); ++i)
     {
         size_t nbNeurons = dimension[i];
@@ -30,6 +30,7 @@ NeuralNetwork::~NeuralNetwork()
         for (size_t n = 0; n < slice.size(); ++n) {
             delete slice[n];
         }
+        slice.clear();
     }
 }
 
@@ -47,7 +48,7 @@ qreal NeuralNetwork::compute(const Eigen::VectorXd &rayCast, const Eigen::Vector
 
         for (size_t n = 0; n < slice.size(); ++n) {
             Neuron *neuron = slice[n];
-            result << neuron->compute(entries);
+            result[n] = neuron->compute(entries);
         }
 
         entries = result;
@@ -56,5 +57,17 @@ qreal NeuralNetwork::compute(const Eigen::VectorXd &rayCast, const Eigen::Vector
     // result = sortie du reseau de neurones
     // TODO : correction des poids
 
-    return 0;
+    // calcul de l'angle equivalent a la reponse du RDN
+    size_t nbOut = result.rows();
+    qreal sum = 0;
+    qreal angle = -45;
+    qreal angle_inc = 90 / (nbOut - 1);
+    int accum = 0;
+    for (int i = 0; i < nbOut; ++i) {
+        sum += angle * result[i];
+        angle += angle_inc;
+        accum += (result[i] > 0 ? 1 : 0);
+    }
+
+    return (sum / accum);
 }

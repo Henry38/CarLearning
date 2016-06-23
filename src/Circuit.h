@@ -19,7 +19,7 @@ public:
 
     const QString& getFilename() const { return filename; }
 
-    std::vector<qreal> getRayCast(const Car &car) const;
+    Eigen::VectorXd getRayCast(const Car &car) const;
     QPointF toImage(qreal x, qreal y) const;
 
 private:
