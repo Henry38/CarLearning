@@ -5,7 +5,7 @@
 #include <QtGlobal>
 
 // Eigen
-#include <Eigen/Eigen>
+#include <Eigen>
 
 class Neuron
 {

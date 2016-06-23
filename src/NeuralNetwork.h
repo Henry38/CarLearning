@@ -8,7 +8,7 @@
 #include <vector>
 
 // Eigen
-#include <Eigen/Eigen>
+#include <Eigen>
 
 #include "Neuron.h"
 
