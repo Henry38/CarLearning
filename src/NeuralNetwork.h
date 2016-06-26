@@ -1,9 +1,6 @@
 #ifndef NEURALNETWORK_H
 #define NEURALNETWORK_H
 
-// Qt
-//#include <QObject>
-
 // Standard Library
 #include <vector>
 
@@ -22,7 +19,7 @@ public:
     qreal compute(const Eigen::VectorXd &rayCast, const Eigen::VectorXd &perfectScore);
 
 private:
-    std::vector< std::vector<Neuron*> > neuronSlices;
+    std::vector< std::vector<Neuron*> > m_neuronLayers;
 
 };
 
