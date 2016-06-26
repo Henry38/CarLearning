@@ -17,7 +17,9 @@ SOURCES += \
     Simulation.cpp \
     Circuit.cpp \
     NeuralNetwork.cpp \
-    Neuron.cpp
+    Neuron.cpp \
+    Ray.cpp \
+    NeuralClasses.cpp
 
 HEADERS += \
     MainWindow.h \
@@ -27,7 +29,9 @@ HEADERS += \
     Simulation.h \
     Circuit.h \
     NeuralNetwork.h \
-    Neuron.h
+    Neuron.h \
+    Ray.h \
+    NeuralClasses.h
 
 # Ajout du repertoire d'Eigen pour les fichers d'inclusion
 INCLUDEPATH += ../lib/Eigen-3.2.8

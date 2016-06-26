@@ -4,6 +4,11 @@
 // Qt
 #include <QWidget>
 
+// c++
+#include <vector>
+
+using namespace std;
+
 class Car;
 class Circuit;
 class QLabel;
@@ -23,6 +28,10 @@ public:
 
     virtual QSize sizeHint() const;
     virtual void paintEvent(QPaintEvent *);
+
+    void displayRays(QPainter& p_painter, const vector<vector<QPointF> >& p_rays, const vector<qreal>& p_lengths);
+
+    void displayOneRay(QPainter& p_painter, const vector<QPointF>& p_ray, qreal p_lengths);
 
 private:
     QLabel *label;

@@ -1,5 +1,8 @@
 #include "PanelDisplay.h"
 
+//std
+#include <iostream>
+
 // Qt
 #include <QImage>
 #include <QLabel>
@@ -8,6 +11,7 @@
 #include <QScrollArea>
 #include <QVBoxLayout>
 
+//project
 #include "Car.h"
 #include "Circuit.h"
 
@@ -26,7 +30,7 @@ PanelDisplay::PanelDisplay(QWidget *parent) :
 
     // create and configure the scroll area
     scrollArea = new QScrollArea();
-    scrollArea->setBackgroundRole(QPalette::Dark);
+    scrollArea->setBackgroundRole(QPalette::Light);
     scrollArea->setAlignment(Qt::AlignCenter);
     scrollArea->setWidget(label);
 
@@ -37,6 +41,7 @@ PanelDisplay::PanelDisplay(QWidget *parent) :
     setLayout(layout);
 
     m_listCar = new std::vector<const Car*>(0);
+
 }
 
 PanelDisplay::~PanelDisplay()
@@ -65,6 +70,7 @@ QSize PanelDisplay::sizeHint() const
 
 void PanelDisplay::paintEvent(QPaintEvent *)
 {
+    cout << "PAINT EVENT" << endl;
     // create a QImage from m_pixmap
     QImage tmp(m_pixmap->toImage());
 
@@ -78,20 +84,46 @@ void PanelDisplay::paintEvent(QPaintEvent *)
 
     /* Draw from here on QPainter */
     for (unsigned int i = 0; i < m_listCar->size(); ++i) {
+        //cout << i << endl;
         const Car *car = m_listCar->at(i);
-        qreal x = car->x();
-        qreal y = car->y();
-        qreal teta = car->teta();
+        qreal x = car->X();
+        qreal y = car->Y();
+        qreal theta = car->theta();
+        //x+=100.; y+=100;
         QPointF p = m_circuit->toImage(x, y);
         painter.drawPoint(p);
         painter.save();
         painter.translate(p);
-        painter.rotate(-(teta / M_PI) * 180.0);
+        painter.rotate(-theta);//-(theta / M_PI) * 180.0);
         painter.drawRect(-10, -5, 20, 10);
         painter.drawLine(0, 0, 10, 0);
         painter.restore();
+        vector<vector<QPointF> > raysOnImage;
+        vector<qreal> raysLength;
+        m_circuit->getRayCast( *car, raysOnImage, raysLength );
+        displayRays(painter, raysOnImage, raysLength);
     }
 
     // set the new QPixmap from the tmp (QImage)
     label->setPixmap(QPixmap::fromImage(tmp));
+}
+
+
+void PanelDisplay::displayRays(QPainter& p_painter, const vector<vector<QPointF> >& p_rays, const vector<qreal>& p_lengths){
+    for(size_t i=0; i<p_rays.size(); ++i){
+        //cout << p_rays.size() << endl;
+        displayOneRay(p_painter, p_rays[i], p_lengths[i]);
+    }
+}
+
+void PanelDisplay::displayOneRay(QPainter& p_painter, const vector<QPointF>& p_ray, qreal p_length){
+    //cout << p_ray.size() << endl;
+    for(size_t i=0; i<p_ray.size(); ++i){
+        QPointF dif = p_ray[i]-p_ray[0];
+        qreal dist =  sqrt( QPointF::dotProduct(dif,dif) );
+        //cout << i << " " << p_length << " " << dist << endl;
+        //if(dist<p_length){
+            p_painter.drawPoint(p_ray[i]);
+        //}
+    }
 }

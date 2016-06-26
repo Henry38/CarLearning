@@ -7,7 +7,7 @@ Car::Car(QObject *parent) :
 {
     this->m_x = 0;
     this->m_y = 0;
-    this->m_teta = 0;
+    this->m_theta = 0;
     this->m_velocity = 0;
 }
 
@@ -21,9 +21,9 @@ void Car::setY(qreal y)
     this->m_y = y;
 }
 
-void Car::setTeta(qreal teta)
+void Car::setTeta(qreal theta)
 {
-    this->m_teta = teta;
+    this->m_theta = theta;
 }
 
 void Car::setVelocity(qreal velocity)

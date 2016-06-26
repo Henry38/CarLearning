@@ -20,7 +20,7 @@ Simulation::Simulation(qreal L, QObject *parent) :
     m_neuralNetwork = new NeuralNetwork(dimension);
 
     // set properties of the car
-    m_car.setX(0);
+    m_car.setX(100);
     m_car.setY(225);
     m_car.setTeta(0);
     m_car.setVelocity(10);
@@ -51,4 +51,9 @@ void Simulation::timeUpdate()
     // 4- Recuperer le résultat du reseau de neurone
     // 5- Faire bouger la voiture
     // 6- Incrementer le temps de dt ?
+
+    vector<vector<QPointF> > raysOnImage;
+    vector<qreal> raysLength;
+
+    m_circuit.getRayCast(m_car, p_raysOnImage, p_raysLength);
 }

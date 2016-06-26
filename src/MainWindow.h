@@ -24,6 +24,8 @@ public:
 
 private:
     // IHM
+    // on met le m_layout dans le m_centralWidget
+    // puis on met le m_panelInfo et le m_panelDisplay dans le m_layout
     QWidget *m_centralWidget;
     QHBoxLayout *m_layout;
     PanelInfo *m_panelInfo;

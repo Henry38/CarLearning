@@ -5,9 +5,15 @@
 #include <QObject>
 #include <QTimer>
 
+//std
+#include <iostream>
+
+// carLearning
 #include "Car.h"
 #include "Circuit.h"
 #include "NeuralNetwork.h"
+
+using namespace std;
 
 class Simulation : public QObject
 {

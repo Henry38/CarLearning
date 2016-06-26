@@ -5,15 +5,20 @@
 #include <QObject>
 #include <QtGlobal>
 
+// Eigen
+#include <Eigen>
+
+using Eigen::Vector3d;
+
 class Car : public QObject
 {
 
 public:
     explicit Car(QObject *parent = 0);
 
-    qreal x() const { return m_x; }
-    qreal y() const { return m_y; }
-    qreal teta() const { return m_teta; }
+    qreal X() const { return m_x; }
+    qreal Y() const { return m_y; }
+    qreal theta() const { return m_theta; }
     qreal velocity() const { return m_velocity; }
 
     void setX(qreal x);
@@ -27,7 +32,7 @@ private:
 
     qreal m_x;
     qreal m_y;
-    qreal m_teta;
+    qreal m_theta;
     qreal m_velocity;
 
 };

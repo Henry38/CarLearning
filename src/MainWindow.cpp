@@ -8,6 +8,8 @@
 #include "PanelDisplay.h"
 #include "Simulation.h"
 
+#include <iostream>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
