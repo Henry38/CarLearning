@@ -55,5 +55,5 @@ void Simulation::timeUpdate()
     vector<vector<QPointF> > raysOnImage;
     vector<qreal> raysLength;
 
-    m_circuit.getRayCast(m_car, p_raysOnImage, p_raysLength);
+    m_circuit.getRayCast(m_car, raysOnImage, raysLength);
 }

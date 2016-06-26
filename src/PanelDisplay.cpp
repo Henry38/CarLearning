@@ -120,7 +120,7 @@ void PanelDisplay::displayOneRay(QPainter& p_painter, const vector<QPointF>& p_r
     //cout << p_ray.size() << endl;
     for(size_t i=0; i<p_ray.size(); ++i){
         QPointF dif = p_ray[i]-p_ray[0];
-        qreal dist =  sqrt( QPointF::dotProduct(dif,dif) );
+        //qreal dist =  sqrt( QPointF::dotProduct(dif,dif) );
         //cout << i << " " << p_length << " " << dist << endl;
         //if(dist<p_length){
             p_painter.drawPoint(p_ray[i]);
