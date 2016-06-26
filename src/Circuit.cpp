@@ -30,7 +30,7 @@ Circuit::Circuit(qreal L, QObject *parent) :
 
 Eigen::VectorXd Circuit::getRayCast(const Car &car) const
 {
-    Eigen::VectorXd vector = Eigen::VectorXd::Constant(Car::nbRay,20);
+    Eigen::VectorXd vector = Eigen::VectorXd::Constant(Car::nbRays,20);
     // TODO : implements ray cast algorithm from a continuous space ?
     return vector;
 }
