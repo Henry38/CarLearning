@@ -23,7 +23,7 @@ public:
 
     void setX(qreal x);
     void setY(qreal y);
-    void setTeta(qreal teta);
+    void setTheta(qreal teta);
     void setVelocity(qreal velocity);
 
     static const size_t nbRays;

@@ -10,6 +10,7 @@
 #include <QPainter>
 #include <QScrollArea>
 #include <QVBoxLayout>
+#include <QKeyEvent>
 
 //project
 #include "Car.h"
@@ -40,7 +41,7 @@ PanelDisplay::PanelDisplay(QWidget *parent) :
     // set the layout manager for this widget
     setLayout(layout);
 
-    m_listCar = new std::vector<const Car*>(0);
+    m_listCar = new std::vector<Car*>(0);
 
 }
 
@@ -52,7 +53,7 @@ PanelDisplay::~PanelDisplay()
 
 void PanelDisplay::addCar(const Car *car)
 {
-    m_listCar->push_back(car);
+    m_listCar->push_back( (Car*) car);
 }
 
 void PanelDisplay::setCircuit(const Circuit *circuit)
@@ -70,7 +71,6 @@ QSize PanelDisplay::sizeHint() const
 
 void PanelDisplay::paintEvent(QPaintEvent *)
 {
-    cout << "PAINT EVENT" << endl;
     // create a QImage from m_pixmap
     QImage tmp(m_pixmap->toImage());
 
@@ -108,10 +108,22 @@ void PanelDisplay::paintEvent(QPaintEvent *)
     label->setPixmap(QPixmap::fromImage(tmp));
 }
 
+void PanelDisplay::keyPressEvent(QKeyEvent* event)
+{
+    if(event->key() == Qt::Key_Q){
+        (m_listCar->at(0))->setTheta((m_listCar->at(0))->theta()+1.);
+        repaint();
+    }
+
+    if(event->key() == Qt::Key_D){
+        (m_listCar->at(0))->setTheta((m_listCar->at(0))->theta()-1.);
+        repaint();
+    }
+}
+
 
 void PanelDisplay::displayRays(QPainter& p_painter, const vector<vector<QPointF> >& p_rays, const vector<qreal>& p_lengths){
     for(size_t i=0; i<p_rays.size(); ++i){
-        //cout << p_rays.size() << endl;
         displayOneRay(p_painter, p_rays[i], p_lengths[i]);
     }
 }
@@ -120,10 +132,10 @@ void PanelDisplay::displayOneRay(QPainter& p_painter, const vector<QPointF>& p_r
     //cout << p_ray.size() << endl;
     for(size_t i=0; i<p_ray.size(); ++i){
         QPointF dif = p_ray[i]-p_ray[0];
-        //qreal dist =  sqrt( QPointF::dotProduct(dif,dif) );
+        qreal dist =  sqrt( QPointF::dotProduct(dif,dif) );
         //cout << i << " " << p_length << " " << dist << endl;
-        //if(dist<p_length){
+        if(dist<p_length){
             p_painter.drawPoint(p_ray[i]);
-        //}
+        }
     }
 }

@@ -6,3 +6,4 @@ build-src-Desktop_Qt_5_6_0_GCC_64bit-Debug/*
 build-src-Desktop_Qt_5_6_0_GCC_64bit-Release/*
 src/MaFenetre.cpp
 src/MaFenetre.h
+src/Circuit.cpp.autosave

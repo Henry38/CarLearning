@@ -1,12 +1,14 @@
 #include "Ray.h"
 
-Ray::Ray(size_t p_discretization, Vector3d p_G, qreal p_theta, qreal p_L):
-    m_G(p_G),
+Ray::Ray(const Car* p_car, size_t p_discretization, qreal p_theta, qreal p_L):
     m_theta(p_theta),
     m_L(p_L/2.),
     m_discretization(p_discretization)
 {
-    m_theta *= M_PI/180.;
+    m_G(0) = p_car->X();
+    m_G(1) = p_car->Y();
+//    m_theta *= M_PI/180.;
+    m_theta = ( m_theta + p_car->theta()) * M_PI/180.;
     qreal x = m_G(0);
     qreal y = m_G(1);
     qreal step = m_L/(qreal)m_discretization;
@@ -20,7 +22,6 @@ Ray::Ray(size_t p_discretization, Vector3d p_G, qreal p_theta, qreal p_L):
         y += step*sin(m_theta);
         length = distanceFromOrigin(x,y);
     }
-
 }
 
 qreal Ray::distanceFromOrigin(qreal p_x, qreal p_y)const{

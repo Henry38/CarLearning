@@ -27,7 +27,8 @@ public:
     void setCircuit(const Circuit *circuit);
 
     virtual QSize sizeHint() const;
-    virtual void paintEvent(QPaintEvent *);
+    virtual void paintEvent(QPaintEvent*);
+    virtual void keyPressEvent(QKeyEvent*);
 
     void displayRays(QPainter& p_painter, const vector<vector<QPointF> >& p_rays, const vector<qreal>& p_lengths);
 
@@ -38,7 +39,7 @@ private:
     QScrollArea *scrollArea;
     QPixmap *m_pixmap;
 
-    std::vector<const Car*> *m_listCar;
+    std::vector<Car*> *m_listCar;
     const Circuit *m_circuit;
 
 };

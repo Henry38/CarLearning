@@ -44,14 +44,11 @@ void Circuit::getRayCast(const Car &car, vector<vector<QPointF> >& p_raysOnImage
     // recover the coordinate of the car in the physical space
     Vector3d G(car.X(), car.Y(), 1);
 
-    // project those above coordinates in the pixel space of the image.
-    QPointF G_on_image = toImage(G(0), G(1));
-
     // angle of the rays thrown by the car wrt the direction of the car
     qreal minAngle = -90.;
     qreal maxAngle = 90.;
     size_t numberOfAngles = 7;  // Attribut static a mettre de la classe Car
-    size_t discretization = 100;
+    size_t discretization = 1000;
 
     NeuralClasses angleClasses(minAngle, maxAngle, numberOfAngles);
     vector<qreal> classes = angleClasses.classes();
@@ -61,7 +58,7 @@ void Circuit::getRayCast(const Car &car, vector<vector<QPointF> >& p_raysOnImage
     // for each ray (each ray is caracterized by its angle wrt the direction of the car)
     for(size_t i = 0; i<classes.size(); ++i){
 
-        Ray ray(discretization, G, classes[i], m_L);
+        Ray ray(&car, discretization, classes[i], m_L);
 
         // projecion of a ray in the "pixel space"
         p_raysOnImage.push_back(rayOnImageProjection(ray.line()));

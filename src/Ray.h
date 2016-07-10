@@ -1,9 +1,17 @@
 #ifndef RAY_H
 #define RAY_H
 
+// Qt
 #include <QtMath>
+
+// Eigen
 #include <Eigen>
+
+// C++
 #include <vector>
+
+// project
+#include "Car.h"
 
 using namespace std;
 using namespace Eigen;
@@ -11,7 +19,7 @@ using namespace Eigen;
 class Ray
 {
 public:
-    Ray(size_t p_discretization, Vector3d p_G, qreal p_angle, qreal p_L);
+    Ray(const Car* p_car, size_t p_discretization, qreal p_angle, qreal p_L);
     qreal distanceFromOrigin(qreal p_x, qreal p_y)const;
 
     vector<Vector3d> line()const{return m_line;}

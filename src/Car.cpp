@@ -21,7 +21,7 @@ void Car::setY(qreal y)
     this->m_y = y;
 }
 
-void Car::setTeta(qreal theta)
+void Car::setTheta(qreal theta)
 {
     this->m_theta = theta;
 }
