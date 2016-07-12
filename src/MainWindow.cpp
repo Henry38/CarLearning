@@ -4,6 +4,7 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 
+// Project
 #include "PanelInfo.h"
 #include "PanelDisplay.h"
 #include "Simulation.h"
@@ -23,9 +24,12 @@ MainWindow::MainWindow(QWidget *parent) :
     // MainWindow takes the ownership of m_layout (parenting)
     m_centralWidget->setLayout(m_layout);
 
+    // create a simulation
+    m_simulation = new Simulation(1000, this);
+
     // create the two graphicals panels
     m_panelInfo = new PanelInfo();
-    m_panelDisplay = new PanelDisplay();
+    m_panelDisplay = new PanelDisplay(m_simulation);
 
     // add panels to m_layout
     // MainWindow takes ownership of them (parenting)
@@ -34,13 +38,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // set the central widget of the window
     setCentralWidget(m_centralWidget);
-
-    // create a simulation
-    m_simulation = new Simulation(1000, this);
-
-    // set element for m_panelDisplay
-    m_panelDisplay->addCar(m_simulation->getCar());
-    m_panelDisplay->setCircuit(m_simulation->getCircuit());
 }
 
 MainWindow::~MainWindow()

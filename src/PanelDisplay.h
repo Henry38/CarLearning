@@ -4,27 +4,20 @@
 // Qt
 #include <QWidget>
 
-// c++
-#include <vector>
-
 using namespace std;
 
-class Car;
-class Circuit;
 class QLabel;
 class QScrollArea;
 class QPixmap;
+class Simulation;
 
 class PanelDisplay : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit PanelDisplay(QWidget *parent = 0);
+    explicit PanelDisplay(Simulation *simulation, QWidget *parent = 0);
     ~PanelDisplay();
-
-    void addCar(const Car *car);
-    void setCircuit(const Circuit *circuit);
 
     virtual QSize sizeHint() const;
     virtual void paintEvent(QPaintEvent*);
@@ -35,13 +28,11 @@ public:
     void displayOneRay(QPainter& p_painter, const vector<QPointF>& p_ray, qreal p_lengths);
 
 private:
-    QLabel *label;
-    QScrollArea *scrollArea;
+    QLabel *m_label;
+    QScrollArea *m_scrollArea;
     QPixmap *m_pixmap;
 
-    std::vector<Car*> *m_listCar;
-    const Circuit *m_circuit;
-
+    const Simulation *m_simulation;
 };
 
 #endif // PANELDISPLAY_H

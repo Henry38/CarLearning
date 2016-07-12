@@ -26,6 +26,12 @@ public:
     void setTheta(qreal teta);
     void setVelocity(qreal velocity);
 
+    void forward(qreal distance) {
+        setX(X() + distance * cos( theta() * M_PI / 180.0 ));
+        setY(Y() + distance * sin( theta() * M_PI / 180.0 ));
+    }
+    void turn(qreal p_theta) { setTheta(theta() + p_theta); }
+
     static const size_t nbRays;
 
 private:

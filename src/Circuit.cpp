@@ -15,8 +15,8 @@ Circuit::Circuit(qreal L, QObject *parent) :
 }
 
 void Circuit::computeProjMatrix(){
-    int width = m_track.width(); // p_w
-    int height = m_track.height(); // p_h
+    int width = m_track.width();
+    int height = m_track.height();
     qreal ratio = qreal(width) / qreal(height);
     qreal r = 0.5 * m_L;
     qreal t = 0.5 * m_L * (1.0 / ratio);
@@ -38,16 +38,16 @@ void Circuit::computeScreenMatrix(){
     m_screenMatrix(2,2) = 1;
 }
 
-void Circuit::getRayCast(const Car &car, vector<vector<QPointF> >& p_raysOnImage, vector<qreal>& p_raysLength)const
+void Circuit::getRayCast(const Car &car, vector<vector<QPointF> >& p_raysOnImage, vector<qreal>& p_raysLength) const
 {
 
     // recover the coordinate of the car in the physical space
-    Vector3d G(car.X(), car.Y(), 1);
+    //Vector3d G(car.X(), car.Y(), 1);
 
     // angle of the rays thrown by the car wrt the direction of the car
     qreal minAngle = -90.;
     qreal maxAngle = 90.;
-    size_t numberOfAngles = 7;  // Attribut static a mettre de la classe Car
+    size_t numberOfAngles = Car::nbRays;
     size_t discretization = 1000;
 
     NeuralClasses angleClasses(minAngle, maxAngle, numberOfAngles);

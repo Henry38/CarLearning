@@ -22,7 +22,7 @@ Simulation::Simulation(qreal L, QObject *parent) :
     // set properties of the car
     m_car.setX(100);
     m_car.setY(225);
-    m_car.setTheta(45);
+    m_car.setTheta(0);
     m_car.setVelocity(10);
 
     // connect timeout signal and timeUpdate slot
