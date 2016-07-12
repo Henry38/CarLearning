@@ -23,9 +23,7 @@ public:
     virtual void paintEvent(QPaintEvent*);
     virtual void keyPressEvent(QKeyEvent*);
 
-    void displayRays(QPainter& p_painter, const vector<vector<QPointF> >& p_rays, const vector<qreal>& p_lengths);
-
-    void displayOneRay(QPainter& p_painter, const vector<QPointF>& p_ray, qreal p_lengths);
+    void displayRays(QPainter& p_painter, const vector<vector<QPoint> >& p_rays);
 
 private:
     QLabel *m_label;

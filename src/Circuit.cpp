@@ -38,35 +38,31 @@ void Circuit::computeScreenMatrix(){
     m_screenMatrix(2,2) = 1;
 }
 
-void Circuit::getRayCast(const Car &car, vector<vector<QPointF> >& p_raysOnImage, vector<qreal>& p_raysLength) const
+void Circuit::getRayCast(const Car &car, vector<vector<QPoint> >& p_raysOnImage) const
 {
-
-    // recover the coordinate of the car in the physical space
-    //Vector3d G(car.X(), car.Y(), 1);
-
     // angle of the rays thrown by the car wrt the direction of the car
     qreal minAngle = -90.;
     qreal maxAngle = 90.;
     size_t numberOfAngles = Car::nbRays;
-    size_t discretization = 1000;
+    qreal step_angle = (maxAngle - minAngle) / (numberOfAngles - 1);
 
-    NeuralClasses angleClasses(minAngle, maxAngle, numberOfAngles);
-    vector<qreal> classes = angleClasses.classes();
-
-    //int* matrix = imageToArray(m_track);
+    QPointF p1 = toImage(car.X(), car.Y());
+    int x1 = std::floor(p1.x());
+    int y1 = std::floor(p1.y());
 
     // for each ray (each ray is caracterized by its angle wrt the direction of the car)
-    for(size_t i = 0; i<classes.size(); ++i){
+    for(size_t i = 0; i < numberOfAngles; ++i) {
+        qreal angle = car.theta() + minAngle + (i * step_angle);
+        qreal radian = angle * (M_PI / 180.0);
+        QPointF p2 = toImage(car.X() + m_L * cos(radian), car.Y() + m_L * sin(radian));
+        int x2 = p2.x();
+        int y2 = p2.y();
 
-        Ray ray(&car, discretization, classes[i], m_L);
-
-        // projecion of a ray in the "pixel space"
-        p_raysOnImage.push_back(rayOnImageProjection(ray.line()));
-
-        // computing the length of the ray in the "pixel space"
-        qreal length = lengthComputation(p_raysOnImage[i]);
-
-        p_raysLength.push_back(length);
+        std::vector<QPoint> ray;
+        Bresenham2D(x1, y1, x2, y2, ray);
+        if (ray.size() > 0) {
+            p_raysOnImage.push_back(ray);
+        }
     }
 }
 
@@ -102,50 +98,114 @@ QPointF Circuit::toImage(qreal x, qreal y) const
     return QPointF(p_image(0), p_image(1));
 }
 
-vector<QPointF> Circuit::rayOnImageProjection(const vector<Vector3d>& p_line)const{
-    vector<QPointF> rayOnImage;
-    // for each point in a ray
-    for(size_t i=0; i<p_line.size(); i++){
-        qreal x = p_line[i](0);
-        qreal y = p_line[i](1);
-        // filling a vector that contains the coordinates in the "pixel space" of the points of a ray
-        rayOnImage.push_back(toImage(x,y));
+bool Circuit::isCollision(int x, int y) const
+{
+    if (x < 0 || y < 0 || x > m_track.width() || y > m_track.height()) {
+        return true;
     }
-    return rayOnImage;
+    return (qGray(m_track.pixel(x,y)) == 0);
 }
 
-int* Circuit::imageToArray(QImage image)const{
-    int width = image.width();
-    int height = image.height();
-    int* matrix = new int[width*height];
-    for(int j = 0; j < height; j++)
-    {
-      for(int i = 0; i < width; i++)
-      {
-        matrix[j*width+i] = qGray(image.pixel(i,j));
-      }
-    }
-    return matrix;
-}
+void Circuit::Bresenham2D(int x1, int y1, int x2, int y2, std::vector<QPoint> &ray) const
+{
+    int point[2];
+    point[0] = x1;
+    point[1] = y1;
 
-qreal Circuit::lengthComputation(const vector<QPointF>& p_rayOnImage)const{
-    qreal length = 0.;
-    // for each point of the ray in the "pixel space"
-    for(size_t i=0; i<p_rayOnImage.size(); ++i){
-        // recover the value of the pixel associated to the ray current point
-        int pixel = positionOnImageToPixelValue(p_rayOnImage[i]);
-        if(pixel == 0){
-            QPointF dif = p_rayOnImage[i]-p_rayOnImage[0];
-            length = sqrt( QPointF::dotProduct(dif,dif) );
-            return length;
+    if (isCollision(point[0], point[1])) {
+        return;
+    }
+
+    ray.push_back(QPoint(point[0], point[1]));
+
+    int dx = x2 - x1;
+    int dy = y2 - y1;
+    int x_inc = (dx < 0) ? -1 : 1;
+    int y_inc = (dy < 0) ? -1 : 1;
+    int abs_dx = abs(dx);
+    int abs_dy = abs(dy);
+
+    int dx2 = abs_dx << 1;
+    int dy2 = abs_dy << 1;
+
+    if (abs_dx >= abs_dy) {
+        int err = -abs_dx;
+        bool collision = false;
+        // iteration sur x
+        for (int i = 0; i <= abs_dx && !collision; ++i) {
+            //ray.push_back(QPoint(point[0], point[1]));
+            err += dy2;
+            if (err > 0) {
+                point[1] += y_inc;
+                err -= dx2;
+            }
+            point[0] += x_inc;
+            collision = (isCollision(point[0], point[1]));
+        }
+    } else if (abs_dy >= abs_dx) {
+        int err = -abs_dy;
+        bool collision = false;
+        // iteration sur y
+        for (int i = 0; i <= abs_dy && !collision; ++i) {
+            //ray.push_back(QPoint(point[0], point[1]));
+            err += dx2;
+            if (err > 0) {
+                point[0] += x_inc;
+                err -= dy2;
+            }
+            point[1] += y_inc;
+            collision = (isCollision(point[0], point[1]));
         }
     }
-    return length; // aie!! me renvoie 0
+
+    ray.push_back(QPoint(point[0], point[1]));
 }
 
-int Circuit::positionOnImageToPixelValue(const QPointF& p_position)const{
-    int i = floor(p_position.x());
-    int j = floor(p_position.y());
 
-    return qGray(m_track.pixel(i,j));
-}
+
+
+//vector<QPointF> Circuit::rayOnImageProjection(const vector<Vector3d>& p_line)const{
+//    vector<QPointF> rayOnImage;
+//    // for each point in a ray
+//    for(size_t i=0; i<p_line.size(); i++){
+//        qreal x = p_line[i](0);
+//        qreal y = p_line[i](1);
+//        // filling a vector that contains the coordinates in the "pixel space" of the points of a ray
+//        rayOnImage.push_back(toImage(x,y));
+//    }
+//    return rayOnImage;
+//}
+
+//int* Circuit::imageToArray(QImage image)const{
+//    int width = image.width();
+//    int height = image.height();
+//    int* matrix = new int[width*height];
+//    for(int j = 0; j < height; j++)
+//    {
+//      for(int i = 0; i < width; i++)
+//      {
+//        matrix[j*width+i] = qGray(image.pixel(i,j));
+//      }
+//    }
+//    return matrix;
+//}
+
+//qreal Circuit::lengthComputation(const vector<QPointF>& p_rayOnImage)const{
+//    qreal length = 0.;
+//    // for each point of the ray in the "pixel space"
+//    for(size_t i=0; i<p_rayOnImage.size(); ++i){
+//        // recover the value of the pixel associated to the ray current point
+//        int pixel = positionOnImageToPixelValue(p_rayOnImage[i]);
+//        if(pixel == 0){
+//            QPointF dif = p_rayOnImage[i]-p_rayOnImage[0];
+//            length = sqrt( QPointF::dotProduct(dif,dif) );
+//            return length;
+//        }
+//    }
+//    return length; // aie!! me renvoie 0
+//}
+
+//int Circuit::positionOnImageToPixelValue(int x, int y) const
+//{
+//    return qGray(m_track.pixel(x,y));
+//}

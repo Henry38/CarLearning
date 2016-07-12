@@ -51,8 +51,7 @@ void Simulation::timeUpdate()
     // 5- Faire bouger la voiture
     // 6- Incrementer le temps de dt ?
 
-    vector<vector<QPointF> > raysOnImage;
-    vector<qreal> raysLength;
+//    vector<vector<QPoint> > raysOnImage;
 
-    m_circuit.getRayCast(m_car, raysOnImage, raysLength);
+//    m_circuit.getRayCast(m_car, raysOnImage);
 }

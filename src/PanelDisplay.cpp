@@ -85,10 +85,15 @@ void PanelDisplay::paintEvent(QPaintEvent *)
     painter.drawRect(-10, -5, 20, 10);
     painter.drawLine(0, 0, 10, 0);
     painter.restore();
-    vector<vector<QPointF> > raysOnImage;
-    vector<qreal> raysLength;
-    circuit->getRayCast( *car, raysOnImage, raysLength );
-    displayRays(painter, raysOnImage, raysLength);
+
+    paintpen.setWidth(1);
+    painter.setPen(paintpen);
+
+    vector<vector<QPoint> > raysOnImage;
+    circuit->getRayCast(*car, raysOnImage);
+    if (raysOnImage.size() > 0) {
+        displayRays(painter, raysOnImage);
+    }
 
     // set the new QPixmap from the tmp (QImage)
     m_label->setPixmap(QPixmap::fromImage(tmp));
@@ -122,20 +127,10 @@ void PanelDisplay::keyPressEvent(QKeyEvent* event)
     }
 }
 
-void PanelDisplay::displayRays(QPainter& p_painter, const vector<vector<QPointF> >& p_rays, const vector<qreal>& p_lengths){
+void PanelDisplay::displayRays(QPainter& p_painter, const vector<vector<QPoint> >& p_rays)
+{
     for(size_t i=0; i<p_rays.size(); ++i){
-        displayOneRay(p_painter, p_rays[i], p_lengths[i]);
-    }
-}
-
-void PanelDisplay::displayOneRay(QPainter& p_painter, const vector<QPointF>& p_ray, qreal p_length){
-    //cout << p_ray.size() << endl;
-    for(size_t i=0; i<p_ray.size(); ++i){
-        QPointF dif = p_ray[i]-p_ray[0];
-        qreal dist =  sqrt( QPointF::dotProduct(dif,dif) );
-        //cout << i << " " << p_length << " " << dist << endl;
-        if(dist<p_length){
-            p_painter.drawPoint(p_ray[i]);
-        }
+        //displayOneRay(p_painter, p_rays[i]);
+        p_painter.drawLine(p_rays[i][0], p_rays[i][1]);
     }
 }
