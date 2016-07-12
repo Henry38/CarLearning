@@ -1,6 +1,6 @@
 #include "Car.h"
 
-const size_t Car::nbRays = 15;
+const size_t Car::nbRays = 7;
 
 Car::Car(QObject *parent) :
     QObject(parent)
