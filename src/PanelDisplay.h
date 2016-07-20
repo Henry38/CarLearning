@@ -30,7 +30,7 @@ private:
     QScrollArea *m_scrollArea;
     QPixmap *m_pixmap;
 
-    const Simulation *m_simulation;
+    Simulation *m_simulation;
 };
 
 #endif // PANELDISPLAY_H

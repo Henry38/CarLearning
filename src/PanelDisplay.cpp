@@ -101,27 +101,27 @@ void PanelDisplay::paintEvent(QPaintEvent *)
 
 void PanelDisplay::keyPressEvent(QKeyEvent* event)
 {
-    // A changer !
+    // A changer si on souhaite une animation fluide !
     if(event->key() == Qt::Key_Z){
-        Car *car = (Car*) m_simulation->getCar();
+        Car *car = m_simulation->getCar();
         car->forward(1.0);
         repaint();
     }
 
     if(event->key() == Qt::Key_Q){
-        Car *car = (Car*) m_simulation->getCar();
+        Car *car = m_simulation->getCar();
         car->turn(1.0);
         repaint();
     }
 
     if(event->key() == Qt::Key_S){
-        Car *car = (Car*) m_simulation->getCar();
+        Car *car = m_simulation->getCar();
         car->forward(-1.0);
         repaint();
     }
 
     if(event->key() == Qt::Key_D){
-        Car *car = (Car*) m_simulation->getCar();
+        Car *car = m_simulation->getCar();
         car->turn(-1.0);
         repaint();
     }
@@ -129,8 +129,7 @@ void PanelDisplay::keyPressEvent(QKeyEvent* event)
 
 void PanelDisplay::displayRays(QPainter& p_painter, const vector<vector<QPoint> >& p_rays)
 {
-    for(size_t i=0; i<p_rays.size(); ++i){
-        //displayOneRay(p_painter, p_rays[i]);
+    for(size_t i = 0; i < p_rays.size(); ++i) {
         p_painter.drawLine(p_rays[i][0], p_rays[i][1]);
     }
 }

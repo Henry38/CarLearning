@@ -3,8 +3,6 @@
 
 //CarLearning Project
 #include "Car.h"
-#include "NeuralClasses.h"
-#include "Ray.h"
 
 // Qt
 #include <QImage>
@@ -51,7 +49,6 @@ private:
     Eigen::Matrix3d m_projMatrix;
     Eigen::Matrix3d m_screenMatrix;
     qreal m_L;
-    vector<qreal> m_raysLength;
     vector<vector<QPointF> > m_raysOnImage;
 
 };

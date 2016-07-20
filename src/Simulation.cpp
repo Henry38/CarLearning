@@ -33,25 +33,32 @@ Simulation::Simulation(qreal L, QObject *parent) :
 
 Simulation::~Simulation()
 {
-    delete m_neuralNetwork;
+    delete m_neuralNetwork;z
 }
 
 void Simulation::timeUpdate()
 {
     // 1- Recuperer le lancer de rayon a partir de la voiture
-    // Eigen::VectorXd rayCast = m_circuit.getRayCast(m_car);
+    vector<vector<QPoint> > raysOnImage;
+    m_circuit.getRayCast(m_car, raysOnImage);
 
-    // 2- Générer le vecteur des scores parfaits
+    // 1.1 Generer le vecteur d'entree pour le reseau de neurone
+    unsigned int nbRays = raysOnImage.size();
+    Eigen::VectorXd rayCast(nbRays);
+    for (unsigned int i = 0; i < nbRays; ++i) {
+        QPoint p = raysOnImage[i][1] - raysOnImage[i][0];
+        rayCast[i] = sqrt( QPoint::dotProduct(p,p) );
+    }
+
+    // 2- Generer le vecteur des scores parfaits
+    unsigned int nbOut = 5; // ???
     // Eigen::VectorXd perfectScore = Eigen::VectorXd::Constant(Car::nbRays,1);
 
-    // 3- Balancer le vecteur de distance au réseau de neurone
+    // 3- Balancer les vecteurs au reseau de neurone
     // m_neuralNetwork->compute(rayCast, perfectScore);
 
     // 4- Recuperer le résultat du reseau de neurone
     // 5- Faire bouger la voiture
     // 6- Incrementer le temps de dt ?
 
-//    vector<vector<QPoint> > raysOnImage;
-
-//    m_circuit.getRayCast(m_car, raysOnImage);
 }
