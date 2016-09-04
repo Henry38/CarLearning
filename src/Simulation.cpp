@@ -33,7 +33,7 @@ Simulation::Simulation(qreal L, QObject *parent) :
 
 Simulation::~Simulation()
 {
-    delete m_neuralNetwork;z
+    delete m_neuralNetwork;
 }
 
 void Simulation::timeUpdate()
