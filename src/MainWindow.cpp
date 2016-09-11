@@ -5,11 +5,9 @@
 #include <QPushButton>
 
 // Project
-#include "PanelInfo.h"
 #include "PanelDisplay.h"
+#include "PanelInfo.h"
 #include "Simulation.h"
-
-#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -38,13 +36,19 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // set the central widget of the window
     setCentralWidget(m_centralWidget);
+
+    //QObject::connect(m_panelDisplay, SIGNAL(keyPressed(int,bool)), m_simulation->getCar(), SLOT(move(int,bool)));
+    Car *car = m_simulation->getCar();
+    QObject::connect(m_panelDisplay, SIGNAL(keyPressed(int,bool)), car, SLOT(move(int,bool)));
+    QObject::connect(m_simulation, SIGNAL(needUpdate()), m_panelDisplay, SLOT(update()));
 }
 
 MainWindow::~MainWindow()
 {
-    // m_centralWidget is automaticaly deleted by MainWindow
+    // m_centralWidget is automatically deleted by MainWindow
     // so is m_layout from m_centralWidget (parenting)
     // so are m_panelInfo and m_panelDisplay from m_layout (parenting)
+    // m_simulation is automatically deleted by MainWindow
 }
 
 void MainWindow::timerStart()
@@ -56,5 +60,3 @@ void MainWindow::timerStop()
 {
     //m_timer->stop();
 }
-
-

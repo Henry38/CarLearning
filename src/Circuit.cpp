@@ -1,5 +1,6 @@
 #include "Circuit.h"
 
+// Project
 #include "Car.h"
 
 Circuit::Circuit(qreal L, QObject *parent) :
@@ -38,7 +39,7 @@ void Circuit::computeScreenMatrix(){
     m_screenMatrix(2,2) = 1;
 }
 
-void Circuit::getRayCast(const Car &car, vector<vector<QPoint> >& p_raysOnImage) const
+void Circuit::getRayCast(Car &car, vector<vector<QPoint> >& p_raysOnImage) const
 {
     // angle of the rays thrown by the car wrt the direction of the car
     qreal minAngle = -90.;
@@ -46,7 +47,7 @@ void Circuit::getRayCast(const Car &car, vector<vector<QPoint> >& p_raysOnImage)
     size_t numberOfAngles = Car::nbRays;
     qreal step_angle = (maxAngle - minAngle) / (numberOfAngles - 1);
 
-    QPointF p1 = toImage(car.X(), car.Y());
+    QPointF p1 = toImage(car.x(), car.y());
     int x1 = std::floor(p1.x());
     int y1 = std::floor(p1.y());
 
@@ -54,7 +55,7 @@ void Circuit::getRayCast(const Car &car, vector<vector<QPoint> >& p_raysOnImage)
     for(size_t i = 0; i < numberOfAngles; ++i) {
         qreal angle = car.theta() + minAngle + (i * step_angle);
         qreal radian = angle * (M_PI / 180.0);
-        QPointF p2 = toImage(car.X() + m_L * cos(radian), car.Y() + m_L * sin(radian));
+        QPointF p2 = toImage(car.x() + m_L * cos(radian), car.y() + m_L * sin(radian));
         int x2 = p2.x();
         int y2 = p2.y();
 

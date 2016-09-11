@@ -5,10 +5,7 @@
 #include <QObject>
 #include <QTimer>
 
-//std
-#include <iostream>
-
-// carLearning
+// Project
 #include "Car.h"
 #include "Circuit.h"
 #include "NeuralNetwork.h"
@@ -34,6 +31,7 @@ private:
     QTimer m_timer;
 
 signals:
+    void needUpdate();
 
 public slots:
     void timeUpdate();

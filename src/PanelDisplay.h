@@ -22,6 +22,7 @@ public:
     virtual QSize sizeHint() const;
     virtual void paintEvent(QPaintEvent*);
     virtual void keyPressEvent(QKeyEvent*);
+    virtual void keyReleaseEvent(QKeyEvent*);
 
     void displayRays(QPainter& p_painter, const vector<vector<QPoint> >& p_rays);
 
@@ -31,6 +32,10 @@ private:
     QPixmap *m_pixmap;
 
     Simulation *m_simulation;
+
+signals:
+    void keyPressed(int, bool);
+
 };
 
 #endif // PANELDISPLAY_H

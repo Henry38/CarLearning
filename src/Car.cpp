@@ -3,30 +3,58 @@
 const size_t Car::nbRays = 7;
 
 Car::Car(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+    m_x(0),
+    m_y(0),
+    m_theta(0),
+    m_velocity(0),
+    m_moveForward(false),
+    m_turnLeft(false),
+    m_moveBackward(false),
+    m_turnRight(false)
 {
-    this->m_x = 0;
-    this->m_y = 0;
-    this->m_theta = 0;
-    this->m_velocity = 0;
 }
 
-void Car::setX(qreal x)
+Car::~Car()
 {
-    this->m_x = x;
 }
 
-void Car::setY(qreal y)
+void Car::update()
 {
-    this->m_y = y;
+    if (m_moveForward) {
+        x() += m_velocity * cos( theta() * M_PI / 180.0 );
+        y() += m_velocity * sin( theta() * M_PI / 180.0 );
+    }
+
+    if (m_moveBackward) {
+        x() -= m_velocity * cos( theta() * M_PI / 180.0 );
+        y() -= m_velocity * sin( theta() * M_PI / 180.0 );
+    }
+
+    if (m_turnLeft) {
+        theta() += 3.0;
+    }
+
+    if (m_turnRight) {
+        theta() -= 3.0;
+    }
 }
 
-void Car::setTheta(qreal theta)
+void Car::move(int key, bool isPressed)
 {
-    this->m_theta = theta;
-}
+    if (key == Qt::Key_Z) {
+        m_moveForward = isPressed;
+    }
 
-void Car::setVelocity(qreal velocity)
-{
-    this->m_velocity = velocity;
+    if (key == Qt::Key_Q) {
+        m_turnLeft = isPressed;
+    }
+
+    if (key == Qt::Key_S) {
+        m_moveBackward = isPressed;
+    }
+
+    if (key == Qt::Key_D) {
+        m_turnRight = isPressed;
+    }
 }

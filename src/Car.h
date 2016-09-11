@@ -12,34 +12,39 @@ using Eigen::Vector3d;
 
 class Car : public QObject
 {
+    Q_OBJECT
 
 public:
     explicit Car(QObject *parent = 0);
+    ~Car();
 
-    qreal X() const { return m_x; }
-    qreal Y() const { return m_y; }
-    qreal theta() const { return m_theta; }
-    qreal velocity() const { return m_velocity; }
+    qreal& x() { return m_x; }
+    qreal& y() { return m_y; }
+    qreal& theta() { return m_theta; }
+    qreal& velocity() { return m_velocity; }
 
-    void setX(qreal x);
-    void setY(qreal y);
-    void setTheta(qreal teta);
-    void setVelocity(qreal velocity);
+    bool& forward() { return m_moveForward; }
+    bool& left() { return m_turnLeft; }
+    bool& backward() { return m_moveBackward; }
+    bool& right() { return m_turnRight; }
 
-    void forward(qreal distance) {
-        setX(X() + distance * cos( theta() * M_PI / 180.0 ));
-        setY(Y() + distance * sin( theta() * M_PI / 180.0 ));
-    }
-    void turn(qreal p_theta) { setTheta(theta() + p_theta); }
+    void update();
 
     static const size_t nbRays;
 
 private:
-
     qreal m_x;
     qreal m_y;
     qreal m_theta;
     qreal m_velocity;
+
+    bool m_moveForward;
+    bool m_turnLeft;
+    bool m_moveBackward;
+    bool m_turnRight;
+
+public slots:
+    void move(int, bool);
 
 };
 

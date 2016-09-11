@@ -3,9 +3,6 @@
 // Qt
 #include <QtMath>
 
-// Standard Library
-#include <iostream>
-
 Simulation::Simulation(qreal L, QObject *parent) :
     QObject(parent),
     m_car(this),
@@ -20,15 +17,15 @@ Simulation::Simulation(qreal L, QObject *parent) :
     m_neuralNetwork = new NeuralNetwork(dimension);
 
     // set properties of the car
-    m_car.setX(100);
-    m_car.setY(225);
-    m_car.setTheta(0);
-    m_car.setVelocity(10);
+    m_car.x() = 100;
+    m_car.y() = 225;
+    m_car.theta() = 0;
+    m_car.velocity() = 3.0;
 
     // connect timeout signal and timeUpdate slot
     // every x milliseconds, timeUpdate method is call by m_timer
     QObject::connect(&m_timer, SIGNAL(timeout()), this, SLOT(timeUpdate()));
-    m_timer.start(1000);
+    m_timer.start(25);
 }
 
 Simulation::~Simulation()
@@ -59,6 +56,10 @@ void Simulation::timeUpdate()
 
     // 4- Recuperer le résultat du reseau de neurone
     // 5- Faire bouger la voiture
+    m_car.update();
+
     // 6- Incrementer le temps de dt ?
 
+    // 7- Mise a jour graphique
+    emit needUpdate();
 }

@@ -1,16 +1,13 @@
 #include "PanelDisplay.h"
 
-// Standard Library
-#include <iostream>
-
 // Qt
 #include <QImage>
+#include <QKeyEvent>
 #include <QLabel>
-#include <QtMath>
 #include <QPainter>
 #include <QScrollArea>
+#include <QtMath>
 #include <QVBoxLayout>
-#include <QKeyEvent>
 
 // Project
 #include "Car.h"
@@ -71,11 +68,11 @@ void PanelDisplay::paintEvent(QPaintEvent *)
     painter.setPen(paintpen);
 
     /* Draw from here on QPainter */
-    const Car *car = m_simulation->getCar();
+    Car *car = m_simulation->getCar();
     const Circuit *circuit = m_simulation->getCircuit();
 
-    qreal x = car->X();
-    qreal y = car->Y();
+    qreal x = car->x();
+    qreal y = car->y();
     qreal theta = car->theta();
     QPointF p = circuit->toImage(x, y);
     painter.drawPoint(p);
@@ -101,30 +98,28 @@ void PanelDisplay::paintEvent(QPaintEvent *)
 
 void PanelDisplay::keyPressEvent(QKeyEvent* event)
 {
-    // A changer si on souhaite une animation fluide !
-    if(event->key() == Qt::Key_Z){
-        Car *car = m_simulation->getCar();
-        car->forward(1.0);
-        repaint();
+    if (event->key() == Qt::Key_Z || event->key() == Qt::Key_Q ||
+            event->key() == Qt::Key_S || event->key() == Qt::Key_D) {
+        if (!event->isAutoRepeat()) {
+            emit keyPressed(event->key(), true);
+            return;
+        }
     }
 
-    if(event->key() == Qt::Key_Q){
-        Car *car = m_simulation->getCar();
-        car->turn(1.0);
-        repaint();
+    QWidget::keyPressEvent(event);
+}
+
+void PanelDisplay::keyReleaseEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Z || event->key() == Qt::Key_Q ||
+            event->key() == Qt::Key_S || event->key() == Qt::Key_D) {
+        if (!event->isAutoRepeat()) {
+            emit keyPressed(event->key(), false);
+            return;
+        }
     }
 
-    if(event->key() == Qt::Key_S){
-        Car *car = m_simulation->getCar();
-        car->forward(-1.0);
-        repaint();
-    }
-
-    if(event->key() == Qt::Key_D){
-        Car *car = m_simulation->getCar();
-        car->turn(-1.0);
-        repaint();
-    }
+    QWidget::keyReleaseEvent(event);
 }
 
 void PanelDisplay::displayRays(QPainter& p_painter, const vector<vector<QPoint> >& p_rays)
