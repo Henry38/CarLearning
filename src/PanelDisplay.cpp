@@ -96,32 +96,6 @@ void PanelDisplay::paintEvent(QPaintEvent *)
     m_label->setPixmap(QPixmap::fromImage(tmp));
 }
 
-void PanelDisplay::keyPressEvent(QKeyEvent* event)
-{
-    if (event->key() == Qt::Key_Z || event->key() == Qt::Key_Q ||
-            event->key() == Qt::Key_S || event->key() == Qt::Key_D) {
-        if (!event->isAutoRepeat()) {
-            emit keyPressed(event->key(), true);
-            return;
-        }
-    }
-
-    QWidget::keyPressEvent(event);
-}
-
-void PanelDisplay::keyReleaseEvent(QKeyEvent *event)
-{
-    if (event->key() == Qt::Key_Z || event->key() == Qt::Key_Q ||
-            event->key() == Qt::Key_S || event->key() == Qt::Key_D) {
-        if (!event->isAutoRepeat()) {
-            emit keyPressed(event->key(), false);
-            return;
-        }
-    }
-
-    QWidget::keyReleaseEvent(event);
-}
-
 void PanelDisplay::displayRays(QPainter& p_painter, const vector<vector<QPoint> >& p_rays)
 {
     for(size_t i = 0; i < p_rays.size(); ++i) {

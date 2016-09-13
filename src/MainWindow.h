@@ -19,6 +19,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    virtual void keyPressEvent(QKeyEvent* event);
+    virtual void keyReleaseEvent(QKeyEvent* event);
+
     void timerStart();
     void timerStop();
 
@@ -33,6 +36,9 @@ private:
 
     // Simulation
     Simulation *m_simulation;
+
+signals:
+    void keyPressed(int, bool);
 
 };
 
