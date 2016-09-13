@@ -107,6 +107,44 @@ bool Circuit::isCollision(int x, int y) const
     return (qGray(m_track.pixel(x,y)) == 0);
 }
 
+//#include <QDebug>
+bool Circuit::isCollision(Car &car) const
+{
+    qreal x = car.x();
+    qreal y = car.y();
+    qreal theta = car.theta() * (M_PI / 180.0);
+    //qDebug() << theta;
+    qreal dx = (cos(theta) * Car::widhtcar) + (sin(theta) * Car::heightcar);
+    qreal dy = (-sin(theta) * Car::widhtcar) + (cos(theta) * Car::heightcar);
+    QPointF p1 = toImage(x + dx, y - dy);
+    if (isCollision(p1.x(), p1.y())) {
+        return true;
+    }
+
+    dx = (cos(theta) * Car::widhtcar) - (sin(theta) * Car::heightcar);
+    dy = (-sin(theta) * Car::widhtcar) - (cos(theta) * Car::heightcar);
+    p1 = toImage(x + dx, y - dy);
+    if (isCollision(p1.x(), p1.y())) {
+        return true;
+    }
+
+    dx = -(cos(theta) * Car::widhtcar) - (sin(theta) * Car::heightcar);
+    dy = -(-sin(theta) * Car::widhtcar) - (cos(theta) * Car::heightcar);
+    p1 = toImage(x + dx, y - dy);
+    if (isCollision(p1.x(), p1.y())) {
+        return true;
+    }
+
+    dx = -(cos(theta) * Car::widhtcar) + (sin(theta) * Car::heightcar);
+    dy = -(-sin(theta) * Car::widhtcar) + (cos(theta) * Car::heightcar);
+    p1 = toImage(x + dx, y - dy);
+    if (isCollision(p1.x(), p1.y())) {
+        return true;
+    }
+
+    return false;
+}
+
 void Circuit::Bresenham2D(int x1, int y1, int x2, int y2, std::vector<QPoint> &ray) const
 {
     int point[2];

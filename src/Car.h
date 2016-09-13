@@ -3,6 +3,7 @@
 
 // Qt
 #include <QObject>
+#include <QColor>
 #include <QtGlobal>
 
 // Eigen
@@ -23,6 +24,8 @@ public:
     qreal& theta() { return m_theta; }
     qreal& velocity() { return m_velocity; }
 
+    QColor& color() { return m_color; }
+
     bool& forward() { return m_moveForward; }
     bool& left() { return m_turnLeft; }
     bool& backward() { return m_moveBackward; }
@@ -31,12 +34,16 @@ public:
     void update();
 
     static const size_t nbRays;
+    static const size_t widhtcar;
+    static const size_t heightcar;
 
 private:
     qreal m_x;
     qreal m_y;
     qreal m_theta;
     qreal m_velocity;
+
+    QColor m_color;
 
     bool m_moveForward;
     bool m_turnLeft;

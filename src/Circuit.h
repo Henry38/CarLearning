@@ -32,6 +32,7 @@ public:
     void computeScreenMatrix();
 
     bool isCollision(int x, int y) const;
+    bool isCollision(Car &car) const;
     void Bresenham2D(int x1, int y1, int x2, int y2, std::vector<QPoint> &ray) const;
 
 private:

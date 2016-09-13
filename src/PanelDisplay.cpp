@@ -71,6 +71,9 @@ void PanelDisplay::paintEvent(QPaintEvent *)
     Car *car = m_simulation->getCar();
     const Circuit *circuit = m_simulation->getCircuit();
 
+    paintpen.setColor(car->color());
+    painter.setPen(paintpen);
+
     qreal x = car->x();
     qreal y = car->y();
     qreal theta = car->theta();
@@ -79,10 +82,15 @@ void PanelDisplay::paintEvent(QPaintEvent *)
     painter.save();
     painter.translate(p);
     painter.rotate(-theta);
-    painter.drawRect(-10, -5, 20, 10);
-    painter.drawLine(0, 0, 10, 0);
+
+    QPointF p1 = circuit->toImage(x+Car::widhtcar, y-Car::heightcar) - p;
+    painter.drawRect(-p1.x(), -p1.y(), 2*p1.x(), 2*p1.y());
+    painter.drawLine(0, 0, p1.x(), 0);
+    //painter.drawRect(-10, -5, 20, 10);
+    //painter.drawLine(0, 0, 10, 0);
     painter.restore();
 
+    paintpen.setColor(Qt::red);
     paintpen.setWidth(1);
     painter.setPen(paintpen);
 

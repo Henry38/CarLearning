@@ -26,6 +26,8 @@ Simulation::Simulation(qreal L, QObject *parent) :
     // every x milliseconds, timeUpdate method is call by m_timer
     QObject::connect(&m_timer, SIGNAL(timeout()), this, SLOT(timeUpdate()));
     m_timer.start(25);
+
+    std::srand(10);
 }
 
 Simulation::~Simulation()
@@ -56,7 +58,11 @@ void Simulation::timeUpdate()
 
     // 4- Recuperer le résultat du reseau de neurone
     // 5- Faire bouger la voiture
+    //m_car.forward() = true;
+    //m_car.theta() += ((std::rand() / float(RAND_MAX)) - 0.5) * 10;
     m_car.update();
+    m_car.color() = (m_circuit.isCollision(m_car) ? Qt::red : Qt::green);
+    //m_car.forward() = false;
 
     // 6- Incrementer le temps de dt ?
 
