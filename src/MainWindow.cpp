@@ -2,15 +2,13 @@
 
 // Qt
 #include <QHBoxLayout>
+#include <QKeyEvent>
 #include <QPushButton>
 
 // Project
 #include "PanelDisplay.h"
 #include "PanelInfo.h"
 #include "Simulation.h"
-
-#include <QDebug>
-#include <QKeyEvent>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -40,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // set the central widget of the window
     setCentralWidget(m_centralWidget);
 
+    // connect the signals and slots
     Car *car = m_simulation->getCar();
     QObject::connect(this, SIGNAL(keyPressed(int,bool)), car, SLOT(move(int,bool)));
     QObject::connect(m_simulation, SIGNAL(needUpdate()), m_panelDisplay, SLOT(update()));
