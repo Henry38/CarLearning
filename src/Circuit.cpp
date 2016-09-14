@@ -107,37 +107,43 @@ bool Circuit::isCollision(int x, int y) const
     return (qGray(m_track.pixel(x,y)) == 0);
 }
 
-//#include <QDebug>
 bool Circuit::isCollision(Car &car) const
 {
     qreal x = car.x();
     qreal y = car.y();
-    qreal theta = car.theta() * (M_PI / 180.0);
-    //qDebug() << theta;
-    qreal dx = (cos(theta) * Car::widhtcar) + (sin(theta) * Car::heightcar);
-    qreal dy = (-sin(theta) * Car::widhtcar) + (cos(theta) * Car::heightcar);
-    QPointF p1 = toImage(x + dx, y - dy);
+    qreal costheta = cos(car.theta() * (M_PI / 180.0));
+    qreal sintheta = sin(car.theta() * (M_PI / 180.0));
+    qreal w2 = Car::widhtcar / 2.0;
+    qreal h2 = Car::heightcar / 2.0;
+
+    // collision detection at top left corner
+    qreal dx = (costheta * w2) + (-sintheta * h2);
+    qreal dy = (sintheta * w2) + (costheta * h2);
+    QPointF p1 = toImage(x + dx, y + dy);
     if (isCollision(p1.x(), p1.y())) {
         return true;
     }
 
-    dx = (cos(theta) * Car::widhtcar) - (sin(theta) * Car::heightcar);
-    dy = (-sin(theta) * Car::widhtcar) - (cos(theta) * Car::heightcar);
-    p1 = toImage(x + dx, y - dy);
+    // collision detection at top right corner
+    dx = (costheta * w2) - (-sintheta * h2);
+    dy = (sintheta * w2) - (costheta * h2);
+    p1 = toImage(x + dx, y + dy);
     if (isCollision(p1.x(), p1.y())) {
         return true;
     }
 
-    dx = -(cos(theta) * Car::widhtcar) - (sin(theta) * Car::heightcar);
-    dy = -(-sin(theta) * Car::widhtcar) - (cos(theta) * Car::heightcar);
-    p1 = toImage(x + dx, y - dy);
+    // collision detection at bottom left corner
+    dx = -(costheta * w2) + (-sintheta * h2);
+    dy = -(sintheta * w2) + (costheta * h2);
+    p1 = toImage(x + dx, y + dy);
     if (isCollision(p1.x(), p1.y())) {
         return true;
     }
 
-    dx = -(cos(theta) * Car::widhtcar) + (sin(theta) * Car::heightcar);
-    dy = -(-sin(theta) * Car::widhtcar) + (cos(theta) * Car::heightcar);
-    p1 = toImage(x + dx, y - dy);
+    // collision detection at bottom right corner
+    dx = -(costheta * w2) - (-sintheta * h2);
+    dy = -(sintheta * w2) - (costheta * h2);
+    p1 = toImage(x + dx, y + dy);
     if (isCollision(p1.x(), p1.y())) {
         return true;
     }

@@ -83,11 +83,9 @@ void PanelDisplay::paintEvent(QPaintEvent *)
     painter.translate(p);
     painter.rotate(-theta);
 
-    QPointF p1 = circuit->toImage(x+Car::widhtcar, y-Car::heightcar) - p;
-    painter.drawRect(-p1.x(), -p1.y(), 2*p1.x(), 2*p1.y());
-    painter.drawLine(0, 0, p1.x(), 0);
-    //painter.drawRect(-10, -5, 20, 10);
-    //painter.drawLine(0, 0, 10, 0);
+    QPointF p1 = circuit->toImage(x+Car::widhtcar, y+Car::heightcar) - p;
+    painter.drawRect(-p1.x()/2.0, -p1.y()/2.0, p1.x(), p1.y());
+    painter.drawRect(0, 0, p1.x()/2.0, 0);
     painter.restore();
 
     paintpen.setColor(Qt::red);
