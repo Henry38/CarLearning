@@ -1,7 +1,7 @@
 #include "Car.h"
 
 const size_t Car::nbRays = 7;
-const size_t Car::widhtcar = 80;
+const size_t Car::widhtcar = 40;
 const size_t Car::heightcar = 20;
 
 Car::Car(QObject *parent) :
