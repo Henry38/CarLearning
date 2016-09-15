@@ -3,6 +3,7 @@
 
 // Qt
 #include <QObject>
+#include <QTime>
 #include <QTimer>
 
 // Project
@@ -22,18 +23,22 @@ public:
 
     Car* getCar() { return &m_car; }
     Circuit* getCircuit() { return &m_circuit; }
+    int time() { return m_timeElapsed + m_time.elapsed(); }
 
 private:
     Car m_car;
     Circuit m_circuit;
     NeuralNetwork *m_neuralNetwork;
 
+    int m_timeElapsed;
+    QTime m_time;
     QTimer m_timer;
 
 signals:
     void needUpdate();
 
 public slots:
+    void toggleTimer(bool value);
     void timeUpdate();
 
 };

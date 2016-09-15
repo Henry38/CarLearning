@@ -7,6 +7,8 @@ Simulation::Simulation(qreal L, QObject *parent) :
     QObject(parent),
     m_car(this),
     m_circuit(L, this),
+    m_timeElapsed(0),
+    m_time(),
     m_timer(this)
 {
     // set 3 slices and define the number of neurons on each of them
@@ -25,7 +27,6 @@ Simulation::Simulation(qreal L, QObject *parent) :
     // connect timeout signal and timeUpdate slot
     // every x milliseconds, timeUpdate method is call by m_timer
     QObject::connect(&m_timer, SIGNAL(timeout()), this, SLOT(timeUpdate()));
-    m_timer.start(25);
 
     std::srand(10);
 }
@@ -33,6 +34,17 @@ Simulation::Simulation(qreal L, QObject *parent) :
 Simulation::~Simulation()
 {
     delete m_neuralNetwork;
+}
+
+void Simulation::toggleTimer(bool value)
+{
+    if (value) {
+        m_time.start();
+        m_timer.start(25);
+    } else {
+        m_timeElapsed += m_time.elapsed();
+        m_timer.stop();
+    }
 }
 
 void Simulation::timeUpdate()
@@ -58,11 +70,11 @@ void Simulation::timeUpdate()
 
     // 4- Recuperer le résultat du reseau de neurone
     // 5- Faire bouger la voiture
-    //m_car.forward() = true;
-    //m_car.theta() += ((std::rand() / float(RAND_MAX)) - 0.5) * 10;
+    m_car.forward() = true;
+    m_car.theta() += ((std::rand() / float(RAND_MAX)) - 0.5) * 10;
     m_car.update();
     m_car.color() = (m_circuit.isCollision(m_car) ? Qt::red : Qt::green);
-    //m_car.forward() = false;
+    m_car.forward() = false;
 
     // 6- Incrementer le temps de dt ?
 

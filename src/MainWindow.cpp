@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_simulation = new Simulation(1000, this);
 
     // create the two graphicals panels
-    m_panelInfo = new PanelInfo();
+    m_panelInfo = new PanelInfo(m_simulation);
     m_panelDisplay = new PanelDisplay(m_simulation);
 
     // add panels to m_layout
@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // connect the signals and slots
     Car *car = m_simulation->getCar();
     QObject::connect(this, SIGNAL(keyPressed(int,bool)), car, SLOT(move(int,bool)));
+    QObject::connect(m_simulation, SIGNAL(needUpdate()), m_panelInfo, SLOT(timeUpdate()));
     QObject::connect(m_simulation, SIGNAL(needUpdate()), m_panelDisplay, SLOT(update()));
 }
 
