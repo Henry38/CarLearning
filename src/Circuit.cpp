@@ -101,7 +101,7 @@ QPointF Circuit::toImage(qreal x, qreal y) const
 
 bool Circuit::isCollision(int x, int y) const
 {
-    if (x < 0 || y < 0 || x > m_track.width() || y > m_track.height()) {
+    if (x < 0 || y < 0 || x >= m_track.width() || y >= m_track.height()) {
         return true;
     }
     return (qGray(m_track.pixel(x,y)) == 0);

@@ -70,11 +70,11 @@ void Simulation::timeUpdate()
 
     // 4- Recuperer le résultat du reseau de neurone
     // 5- Faire bouger la voiture
-    m_car.forward() = true;
-    m_car.theta() += ((std::rand() / float(RAND_MAX)) - 0.5) * 10;
+//    m_car.forward() = true;
+//    m_car.theta() += ((std::rand() / float(RAND_MAX)) - 0.5) * 10;
     m_car.update();
     m_car.color() = (m_circuit.isCollision(m_car) ? Qt::red : Qt::green);
-    m_car.forward() = false;
+//    m_car.forward() = false;
 
     // 6- Incrementer le temps de dt ?
 
