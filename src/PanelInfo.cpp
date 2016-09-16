@@ -11,12 +11,17 @@
 // Project
 #include "Simulation.h"
 
+#include <QIcon>
+
 PanelInfo::PanelInfo(Simulation *simulation, QWidget *parent) :
     QWidget(parent),
     m_simulation(simulation)
 {
     // create the layout manager for this widget
     m_layout = new QGridLayout();
+
+    m_play = new QIcon("../ressource/play.png");
+    m_pause = new QIcon("../ressource/pause.png");
 
     m_panelTop = createTopGroupBox();
     m_layout->addWidget(m_panelTop, 0, 0);
@@ -35,6 +40,8 @@ PanelInfo::PanelInfo(Simulation *simulation, QWidget *parent) :
 
 PanelInfo::~PanelInfo()
 {
+    delete m_play;
+    delete m_pause;
 }
 
 QGroupBox *PanelInfo::createTopGroupBox()
@@ -59,16 +66,26 @@ QGroupBox *PanelInfo::createBottomGroupBox()
 
     // connect play button signal and start simulation slot
     // start and pause the simulation when the button is toggled
-    QPushButton *play = new QPushButton("play");
-    QObject::connect(play, SIGNAL(clicked(bool)), m_simulation, SLOT(toggleTimer(bool)));
-    play->setCheckable(true);
+    buttonplay = new QPushButton(*m_play, "");
+    QObject::connect(buttonplay, SIGNAL(clicked(bool)), m_simulation, SLOT(toggleTimer(bool)));
+    QObject::connect(buttonplay, SIGNAL(toggled(bool)), this, SLOT(toggledButton(bool)));
+    buttonplay->setCheckable(true);
 
     QVBoxLayout *vbox = new QVBoxLayout();
-    vbox->addWidget(play);
+    vbox->addWidget(buttonplay);
     vbox->addStretch(1);
     groupBox->setLayout(vbox);
 
     return groupBox;
+}
+
+void PanelInfo::toggledButton(bool value)
+{
+    if (value) {
+        buttonplay->setIcon(*m_pause);
+    } else {
+        buttonplay->setIcon(*m_play);
+    }
 }
 
 void PanelInfo::timeUpdate()

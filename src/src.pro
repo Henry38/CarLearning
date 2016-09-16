@@ -33,4 +33,6 @@ HEADERS += \
 INCLUDEPATH += ../lib/Eigen-3.2.8
 
 OTHER_FILES += \
-    ../ressource/circuit.png
+    ../ressource/circuit.png \
+    ../ressource/pause.png \
+    ../ressource/play.png

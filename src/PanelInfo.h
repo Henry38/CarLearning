@@ -9,6 +9,9 @@ class QGroupBox;
 class QLCDNumber;
 class Simulation;
 
+class QPushButton;
+class QIcon;
+
 class PanelInfo : public QWidget
 {
     Q_OBJECT
@@ -26,7 +29,12 @@ private:
     QLCDNumber *m_clock;
     Simulation *m_simulation;
 
+    QPushButton *buttonplay;
+    QIcon *m_play;
+    QIcon *m_pause;
+
 public slots:
+    void toggledButton(bool);
     void timeUpdate();
 
 };
